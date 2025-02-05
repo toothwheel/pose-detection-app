@@ -1,5 +1,5 @@
 // Replace with your Teachable Machine model URL
-const modelURL = "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
+const modelURL = "https://teachablemachine.withgoogle.com/models/WPZcydTx7/";
 
 // DOM elements
 const screen = document.getElementById("screen");
