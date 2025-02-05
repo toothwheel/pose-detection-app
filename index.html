@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pose-Based Color App</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose"></script>
-  <link rel="stylesheet" href="style.css">
+  <title>Pose Detection App</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Pose Color App</h1>
-  <video autoplay></video>
+  <h1>Pose Detection App</h1>
+  <div id="screen"></div>
+  <video id="webcam" autoplay playsinline></video>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/teachable-machine"></script>
   <script src="script.js"></script>
 </body>
 </html>
