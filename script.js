@@ -15,6 +15,9 @@ async function init() {
     // Start the webcam
     await startWebcam();
 
+    // Wait for the webcam feed to load data
+    await waitForWebcamData();
+
     // Start predicting poses
     predictPose(model);
   } catch (error) {
@@ -32,6 +35,16 @@ async function startWebcam() {
     console.error("Error accessing webcam: ", error);
     alert("Unable to access webcam. Please ensure your camera is connected and permissions are granted.");
   }
+}
+
+// Wait for the webcam feed to load data
+function waitForWebcamData() {
+  return new Promise((resolve) => {
+    webcam.addEventListener("loadeddata", () => {
+      console.log("Webcam data loaded!");
+      resolve();
+    });
+  });
 }
 
 // Predict the pose and update the screen color
