@@ -7,40 +7,55 @@ const webcam = document.getElementById("webcam");
 
 // Load the model and start the webcam
 async function init() {
-  const model = await tmPose.load(modelURL + "model.json", modelURL + "metadata.json");
-  startWebcam();
-  predictPose(model);
+  try {
+    const model = await tmPose.load(modelURL + "model.json", modelURL + "metadata.json");
+    console.log("Model loaded successfully!");
+    await startWebcam();
+    predictPose(model);
+  } catch (error) {
+    console.error("Error initializing app: ", error);
+  }
 }
 
 // Start the webcam
-function startWebcam() {
-  navigator.mediaDevices
-    .getUserMedia({ video: true, audio: false })
-    .then((stream) => {
-      webcam.srcObject = stream;
-    })
-    .catch((error) => {
-      console.error("Error accessing webcam: ", error);
-    });
+async function startWebcam() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    webcam.srcObject = stream;
+    console.log("Webcam access granted!");
+  } catch (error) {
+    console.error("Error accessing webcam: ", error);
+    alert("Unable to access webcam. Please ensure your camera is connected and permissions are granted.");
+  }
 }
 
 // Predict the pose and update the screen color
 async function predictPose(model) {
-  const prediction = await model.predict(webcam);
-  const poseClass = prediction[0].className; // Get the predicted class
+  try {
+    // Get the pose estimation from the webcam
+    const { pose, posenetOutput } = await model.estimatePose(webcam);
+    const prediction = await model.predict(posenetOutput);
 
-  // Change the screen color based on the pose
-  if (poseClass === "Pose1") {
-    screen.style.backgroundColor = "blue";
-    screen.textContent = "Blue Screen";
-  } else if (poseClass === "Pose2") {
-    screen.style.backgroundColor = "red";
-    screen.textContent = "Red Screen";
+    // Get the predicted class
+    const poseClass = prediction[0].className;
+
+    // Change the screen color based on the pose
+    if (poseClass === "Blue") {
+      screen.style.backgroundColor = "blue";
+      screen.textContent = "Blue Screen";
+    } else if (poseClass === "Red") {
+      screen.style.backgroundColor = "red";
+      screen.textContent = "Red Screen";
+    }
+
+    // Repeat the prediction
+    requestAnimationFrame(() => predictPose(model));
+  } catch (error) {
+    console.error("Error predicting pose: ", error);
   }
-
-  // Repeat the prediction
-  requestAnimationFrame(() => predictPose(model));
 }
 
+// Initialize the app
+init();
 // Initialize the app
 init();
