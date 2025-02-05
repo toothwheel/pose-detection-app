@@ -8,9 +8,14 @@ const webcam = document.getElementById("webcam");
 // Load the model and start the webcam
 async function init() {
   try {
+    // Load the Teachable Machine model
     const model = await tmPose.load(modelURL + "model.json", modelURL + "metadata.json");
     console.log("Model loaded successfully!");
+
+    // Start the webcam
     await startWebcam();
+
+    // Start predicting poses
     predictPose(model);
   } catch (error) {
     console.error("Error initializing app: ", error);
@@ -34,16 +39,18 @@ async function predictPose(model) {
   try {
     // Get the pose estimation from the webcam
     const { pose, posenetOutput } = await model.estimatePose(webcam);
+
+    // Predict the pose class
     const prediction = await model.predict(posenetOutput);
 
     // Get the predicted class
     const poseClass = prediction[0].className;
 
     // Change the screen color based on the pose
-    if (poseClass === "Blue") {
+    if (poseClass === "Pose1") {
       screen.style.backgroundColor = "blue";
       screen.textContent = "Blue Screen";
-    } else if (poseClass === "Red") {
+    } else if (poseClass === "Pose2") {
       screen.style.backgroundColor = "red";
       screen.textContent = "Red Screen";
     }
@@ -55,7 +62,5 @@ async function predictPose(model) {
   }
 }
 
-// Initialize the app
-init();
 // Initialize the app
 init();
