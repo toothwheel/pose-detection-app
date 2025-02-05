@@ -1,4 +1,4 @@
-// Replace with your Teachable Machine model URL
+// Replace with your Teachable Machine model URL -
 const modelURL = "https://teachablemachine.withgoogle.com/models/WPZcydTx7/";
 
 // DOM elements
