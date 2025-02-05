@@ -1,6 +1,9 @@
 // Replace with your Teachable Machine model URL -
 const modelURL = "https://teachablemachine.withgoogle.com/models/WPZcydTx7/";
 
+// Replace with your Teachable Machine model URL
+const modelURL = "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
+
 // DOM elements
 const screen = document.getElementById("screen");
 const webcam = document.getElementById("webcam");
