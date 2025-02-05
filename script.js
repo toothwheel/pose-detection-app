@@ -60,10 +60,10 @@ async function predictPose(model) {
     const poseClass = prediction[0].className;
 
     // Change the screen color based on the pose
-    if (poseClass === "Pose1") {
+    if (poseClass === "Blue") {
       screen.style.backgroundColor = "blue";
       screen.textContent = "Blue Screen";
-    } else if (poseClass === "Pose2") {
+    } else if (poseClass === "Red") {
       screen.style.backgroundColor = "red";
       screen.textContent = "Red Screen";
     }
