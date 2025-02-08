@@ -1,9 +1,10 @@
-// Replace with your Teachable Machine model URL -
+// Replace with your Teachable Machine model URL
 const modelURL = "https://teachablemachine.withgoogle.com/models/WPZcydTx7/";
 
 // DOM elements
 const screen = document.getElementById("screen");
 const webcam = document.getElementById("webcam");
+const feedback = document.getElementById("feedback"); // Add a new element for feedback
 
 // Load the model and start the webcam
 async function init() {
@@ -56,10 +57,11 @@ async function predictPose(model) {
     // Predict the pose class
     const prediction = await model.predict(posenetOutput);
 
-    // Get the predicted class
+    // Get the predicted class and confidence score
     const poseClass = prediction[0].className;
+    const confidence = prediction[0].probability.toFixed(2); // Round to 2 decimal places
 
-    // Change the screen color based on the pose
+    // Update the screen color based on the pose
     if (poseClass === "Blue") {
       screen.style.backgroundColor = "blue";
       screen.textContent = "Blue Screen";
@@ -68,10 +70,14 @@ async function predictPose(model) {
       screen.textContent = "Red Screen";
     }
 
+    // Display the predicted class and confidence score
+    feedback.textContent = `Pose: ${poseClass}, Confidence: ${confidence}`;
+
     // Repeat the prediction
     requestAnimationFrame(() => predictPose(model));
   } catch (error) {
     console.error("Error predicting pose: ", error);
+    feedback.textContent = "Error predicting pose. Please try again.";
   }
 }
 
